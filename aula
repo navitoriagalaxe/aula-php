@@ -1,0 +1,58 @@
+<html>
+<meta charset=UTF-8>
+Pesquisa de Satisfação<hr>
+<form method=POST>
+<br>O que você achou do site?
+<br><input type=radio name=achou value=muitobom> Muito bom
+  <br><input type=radio name=achou value=bom> Bom
+ <br><input type=radio name=achou value=regular> Regular
+ 
+ <br> Qual a seção que você mais gostou?
+ <select name=secao>
+ <option value=emcartaz> Em cartaz
+ <option value=pre> Pré-estreia
+ </select>
+ 
+ <br> Digite seus comentários no campo abaixo:
+ <br><textarea name=comentario cols=100 rows=20>
+</textarea>
+ 
+<br>Diga-nos como entrar em contato com você: <hr><br>
+
+Nome: <input type=text name=nome>
+E-mail: <input type=text name=email>
+Telefone: <input type=text name=telefone>
+<input type=submit name=botao value="Enviar Dados">
+<input type=reset name=limpar value="Limpar formulário">
+</form>
+
+ 
+
+
+
+</html>
+<?php
+if(isset($_POST["botao"])){
+$conexao=mysql_connect("localhost:3306","root", "root");
+mysql_select_db("pesquisa1",$conexao);
+$nome = $_POST["nome"];
+$email = $_POST["email"];
+$telefone = $_POST["telefone"];
+$achou = $_POST[“achou”];
+$secao = $_POST[“secao”];
+$comentario= $_POST[“comentario”];
+
+mysql_query("insert into Pesquisa1 values('$nome','$email','$telefone','$achou','$secao','$comentario')",$conexao);
+$consulta = mysql_query("select * from Pesquisa1",$conexao);
+while($_GET = mysql_fetch_array($consulta)){
+echo "<br> - Nome:".$_GET['nome'];
+echo " - E-mail:".$_GET['email'];
+echo " - Telefone:".$_GET['telefone'];
+echo " - Achou:".$_GET['achou'];
+echo " - Seção:".$_GET['secao'];
+echo " - Comentário:".$_GET['comentario'];
+
+}
+mysql_close($conexao);
+}
+
